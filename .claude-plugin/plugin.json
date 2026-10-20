@@ -1,0 +1,10 @@
+{
+  "name": "read-the-logs-first",
+  "version": "0.1.0",
+  "description": "A skill that makes your coding agent read the stack trace before touching code.",
+  "author": {
+    "name": "hansei996"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/hansei996/read-the-logs-first"
+}

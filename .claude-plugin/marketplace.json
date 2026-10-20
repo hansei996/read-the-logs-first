@@ -1,0 +1,13 @@
+{
+  "name": "read-the-logs-first",
+  "owner": {
+    "name": "hansei996"
+  },
+  "plugins": [
+    {
+      "name": "read-the-logs-first",
+      "source": "./",
+      "description": "A skill that makes your coding agent read the stack trace before touching code."
+    }
+  ]
+}

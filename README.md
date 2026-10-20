@@ -21,7 +21,7 @@ claude plugin marketplace add hansei996/read-the-logs-first
 claude plugin install read-the-logs-first@read-the-logs-first
 ```
 
-Manual: copy `skills/read-the-logs-first/SKILL.md` into your agent's skills directory.
+Manual (always works — the marketplace command depends on your Claude Code version): copy `skills/read-the-logs-first/SKILL.md` into your agent's skills directory.
 
 ## What it does
 
