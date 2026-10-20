@@ -1,5 +1,7 @@
 # read-the-logs-first
 
+[![checks](https://github.com/hansei996/read-the-logs-first/actions/workflows/checks.yml/badge.svg)](https://github.com/hansei996/read-the-logs-first/actions/workflows/checks.yml)
+
 > **It reads the stack trace before it touches your code.**
 
 A skill for any coding agent. Kills guess-and-check debugging: no fix gets proposed until the agent has quoted the exact failing line, opened the failing frame, and named the cause.
