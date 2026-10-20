@@ -15,7 +15,7 @@ Discovery method: GitHub search API (`/search/repositories`, 8 queries, 7 s apar
 | 4 | [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) | 36,053 | 2026-10-19 | PR | Blocked by "no brand-new skills" |
 | 5 | [e2b-dev/awesome-ai-agents](https://github.com/e2b-dev/awesome-ai-agents) | 30,537 | 2026-08-21 | PR / form | Skip — agents, not skills |
 | 6 | [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) | 15,479 | 2026-04-28 | PR | Submit second (social proof wanted) |
-| 7 | [BehiSecc/awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | 10,277 | 2026-09-21 | PR | **Submit first** (no star gate) |
+| 7 | [BehiSecc/awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | 10,277 | 2026-09-21 | PR | **Submitted** — [PR #1010](https://github.com/BehiSecc/awesome-claude-skills/pull/1010) open |
 | 8 | [heilcheng/awesome-agent-skills](https://github.com/heilcheng/awesome-agent-skills) | 6,294 | 2026-10-15 | PR (auto-checked) | Blocked — needs 20★ |
 | 9 | [Prat011/awesome-llm-skills](https://github.com/Prat011/awesome-llm-skills) | 1,809 | 2026-07-14 | PR | Submit third |
 | 10 | [bradAGI/awesome-cli-coding-agents](https://github.com/bradAGI/awesome-cli-coding-agents) | 1,383 | 2026-10-19 | PR | Skip — agents/harnesses only |
@@ -149,6 +149,16 @@ Paste this row:
 ---
 
 ## 7. BehiSecc/awesome-claude-skills — 10,277★ — last commit 2026-09-21
+
+**Status: SUBMITTED 2026-10-20 14:54 UTC — [PR #1010](https://github.com/BehiSecc/awesome-claude-skills/pull/1010) is open.**
+
+- Diff verified via `gh api repos/BehiSecc/awesome-claude-skills/pulls/1010/files`: `{"additions":1,"changes":1,"deletions":0,"filename":"README.md","status":"modified"}` — one file, +1/−0. PR state `open`, `mergeable_state: clean`.
+- `gh pr view 1010 --json files` → `{"files":[{"path":"README.md","additions":1,"deletions":0,"changeType":"MODIFIED"}],"number":1010,"state":"OPEN","title":"Add read-the-logs-first skill","url":"https://github.com/BehiSecc/awesome-claude-skills/pull/1010"}`
+- Fork `hansei996/awesome-claude-skills` (created for this PR), branch `add-read-the-logs-first`, based on upstream `main` `c368a0a` ("Fix APIMart link and update description").
+- README structure re-verified against the 2026-10-20 live file: `## 🛠 Development & Code Tools` opens at L42, last entry `mailtrap-skills` at L88, next heading `## 📊 Data & Analysis` at L91 — the section body has no blank lines between entries and two blank lines before the next heading, so the new line was appended directly after L88 with no other byte changed.
+- Line actually submitted (differs from the draft below by intent — this wording is copied from the repo's own one-line pitch, so the list entry and the project README claim the same thing):
+  `- [read-the-logs-first](https://github.com/hansei996/read-the-logs-first) - Makes the agent read the full stack trace before touching code: quote the failure, open the failing frame, then change one thing.`
+- PR body carries an explicit "**This is my own project**" disclosure, as this list's contributors expect.
 
 Rule (README, "## 🤝 Contribution"):
 > "If you have suggestions, improvements, or new resources to add: 1. Fork this repo 2. Make your changes 3. Submit a Pull Request"
