@@ -11,7 +11,7 @@ Discovery method: GitHub search API (`/search/repositories`, 8 queries, 7 s apar
 |---|------|-------|-------------|---------|---------|
 | 1 | [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | 77,491 | 2026-07-24 | PR | **Submit first** |
 | 2 | [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | 56,082 | 2026-10-20 | issue form only | Wait to 2026-11-03 (14-day rule) |
-| 3 | [github/awesome-copilot](https://github.com/github/awesome-copilot) | 40,224 | 2026-10-19 | PR (vendored folder) | Later — needs vendoring |
+| 3 | [github/awesome-copilot](https://github.com/github/awesome-copilot) | 40,224 | 2026-10-19 | PR (vendored folder) | **Submitted** — [PR #5193](https://github.com/github/awesome-copilot/pull/5193) open |
 | 4 | [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) | 36,053 | 2026-10-19 | PR | Blocked by "no brand-new skills" |
 | 5 | [e2b-dev/awesome-ai-agents](https://github.com/e2b-dev/awesome-ai-agents) | 30,537 | 2026-08-21 | PR / form | Skip — agents, not skills |
 | 6 | [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) | 15,479 | 2026-04-28 | PR | Submit second (social proof wanted) |
