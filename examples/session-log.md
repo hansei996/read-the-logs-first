@@ -273,4 +273,4 @@ f7944b1 examples: add reproducible buggy demo project
 ```
 
 Check that commit out, run `node src/index.js`, and you get the trace from
-section 1 byte for byte.
+section 1 again — identical apart from your own checkout path.
