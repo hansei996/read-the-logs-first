@@ -1,12 +1,12 @@
-const fs = require('node:fs/promises');
+const fs = require('node:fs');
 const path = require('node:path');
 
 const RATES_FILE = path.join(__dirname, '..', 'data', 'rates.json');
 
 let rates = null;
 
-async function loadRates() {
-  const raw = await fs.readFile(RATES_FILE, 'utf8');
+function loadRates() {
+  const raw = fs.readFileSync(RATES_FILE, 'utf8');
   rates = JSON.parse(raw);
 }
 
