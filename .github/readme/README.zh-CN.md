@@ -11,7 +11,7 @@
 把下面这句话粘给你的 agent：
 
 ```text
-从 https://github.com/<you>/read-the-logs-first 安装 read-the-logs-first 技能，按 AGENTS.md 的说明做。
+从 https://github.com/hansei996/read-the-logs-first 安装 read-the-logs-first 技能，按 AGENTS.md 的说明做。
 ```
 
 ## 它做什么
