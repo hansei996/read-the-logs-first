@@ -1,0 +1,54 @@
+name: cassette contract
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-by-action:
+    name: agenttest/validate action accepts a good cassette
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate the recorded run
+        uses: hansei996/agenttest/validate@v1
+        with:
+          path: fixtures/sample
+
+  reject-tampered:
+    name: agenttest/validate action rejects a tampered cassette
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: tamper one byte inside a hashed record
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tampered
+          python - <<'PY'
+          import json, pathlib
+          src = pathlib.Path('fixtures/sample/cassette.jsonl')
+          lines = src.read_text(encoding='utf-8').splitlines()
+          obj = json.loads(lines[5])
+          obj['event']['t'] = float(obj['event'].get('t', 0)) + 1.0
+          lines[5] = json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+          pathlib.Path('/tmp/tampered/cassette.jsonl').write_text(chr(10).join(lines) + chr(10), encoding='utf-8')
+          PY
+      - name: the action must fail on it
+        id: should_fail
+        continue-on-error: true
+        uses: hansei996/agenttest/validate@v1
+        with:
+          path: /tmp/tampered
+      - name: assert it failed
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.should_fail.outcome }}" != "failure" ]; then
+            echo "validating a tampered cassette passed, which means the hash chain is not being checked" >&2
+            exit 1
+          fi
+          echo "as expected: tampered cassette rejected"
