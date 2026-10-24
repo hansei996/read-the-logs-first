@@ -1,39 +1,60 @@
 ---
 name: read-the-logs-first
-description: Force the agent to read the full error, log, or stack trace before touching code. Use when debugging a failure, when a test/CI run breaks, when the user pastes a traceback, or whenever you are about to propose a fix without having quoted the exact failing line.
+description: Use when debugging a failure, a broken test or CI run, or when the user pastes a traceback. Gives the agent the two things it would otherwise guess at - a deterministic failing-frame extractor and a table of where each runtime actually writes its logs - then the rules for changing one thing at a time.
 license: MIT
 ---
 
 # Read the logs first
 
-You do not get to touch the code until you have read the failure.
+Do not edit code until you have the failing frame in front of you, taken from evidence rather than guessed from the first line of the exception.
+
+## Step 0 - extract the frame, do not eyeball it
+
+```bash
+pytest 2>&1 | python tools/extract_frame.py
+```
+
+It prints `file:line` plus the source line of the **innermost frame that belongs to user code** (Python: last user frame; Node: first user frame; stdlib, `site-packages`, `node_modules` and `node:internal` are skipped). If it exits 2, there was no user frame - say so and stop instead of guessing.
+
+## Where the logs actually are
+
+Most "I cannot see the error" cases are a wrong log location, not a missing log.
+
+| Runtime | Where to look |
+|---|---|
+| pytest | `-l -vv` keeps the locals; `--tb=long`; full output is in the terminal, not in a file |
+| Python logging | `logging.basicConfig()` writes to **stderr**; `pytest -s` to stop capture |
+| Node / V8 | stderr, not stdout; the frame is the first `at ...` line inside your repo |
+| Docker | `docker logs <c>` is the container stdout+stderr; `docker inspect` for OOM exit 137 |
+| systemd | `journalctl -u <svc> -n 200 --no-pager` |
+| GitHub Actions | the step log, not the annotation; annotations truncate at the first error |
+| nginx / apache | `error.log` (not `access.log`); the status code alone never contains the reason |
 
 ## Rules
 
-1. **Read the whole error.** Full stack trace, full log block, all the lines — not the first line of the exception.
-2. **Quote the failure verbatim.** One line, copied exactly, in your reply. No paraphrase, no cleanup.
-3. **Open the frame before you edit.** Take `file:line` from the trace and read that region. If the trace has no frame in the user's own code, say so out loud and stop.
-4. **Separate error from symptom.** Name the failing frame and what value was wrong there. "The exception is thrown here, but the cause is up-call-site."
-5. **Every hypothesis carries evidence.** State it as: `X fails because Y (trace line N)`. A hypothesis without a trace line is a guess — label it as a guess.
-6. **One change at a time.** Smallest edit that can falsify your hypothesis. No drive-by refactors, no dependency upgrades, no format fixes during a bug hunt.
-7. **Re-run the exact reproducing command** after the change, and paste the result. "Should work now" is not a result.
-8. **Truncated or missing logs? Ask, don't guess.** Name precisely what to paste (`the 4th frame`, `the 20 lines before the crash`) and stop.
-9. **No speculative tooling.** Do not add debuggers, loggers, or libraries unless rule 10 applies.
-10. **Two failed fixes = stop guessing.** Propose one instrumentation step (a log line, a minimal repro script) and say what it will distinguish between.
+1. **Run the extractor, then read the whole trace** - not the first line of the exception.
+2. **Quote the extracted `file:line` and its source line verbatim** in your reply. No paraphrase.
+3. **Open that frame before editing.** If the extractor found no user frame, say so and stop.
+4. **Separate error from symptom.** Name the frame that raised *and* the call site that supplied the bad value.
+5. **Every hypothesis carries evidence:** `X fails because Y (file:line)`. No line = it is a guess, label it.
+6. **Check the log location before concluding the log is missing** - use the table above.
+7. **One change at a time.** Smallest edit that can falsify the hypothesis. No drive-by refactors while hunting a bug.
+8. **Re-run the exact reproducing command** and paste the output. "Should work now" is not a result.
+9. **Truncated logs: ask for the exact missing part** (`frames 4-8`, `the 20 lines before the crash`). Do not fill gaps with guesses.
+10. **Two failed fixes: stop guessing.** Propose one instrumentation step (one log line, one minimal repro) and say what it distinguishes.
 
 ## Output shape
 
 ```
 Failure: <verbatim line>
-Frame:   <file:line>
+Frame:   <file:line>  (<source line>)
 Cause:   <what was wrong there> (evidence: <trace line / code line>)
 Fix:     <smallest change>
-Verify:  <command you will run> -> <actual output>
+Verify:  <command> -> <actual output>
 ```
 
-## Anti-patterns this skill exists to kill
+## Anti-patterns this kills
 
-- "It might be a version mismatch — try upgrading X."
-- "Let me rewrite the function to be safer."
+- "It might be a version mismatch - try upgrading X."
+- "The log is missing" (when it went to stderr, or to the step log, or to journalctl).
 - Editing three files, then asking whether it works now.
-- Restating the error the user already pasted instead of reading the frame after it.

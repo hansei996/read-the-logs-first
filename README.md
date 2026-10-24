@@ -8,6 +8,19 @@ A skill for any coding agent. Kills guess-and-check debugging: no fix gets propo
 
 Works with Claude Code, Codex, Cursor, Gemini CLI, DeepSeek Harness — any agent that loads a `SKILL.md` / `AGENTS.md`.
 
+## What it adds that the model does not already know
+
+Two things an agent would otherwise guess at:
+
+1. **`tools/extract_frame.py`** — deterministic failing-frame extractor. Feed it stderr; it returns the innermost frame that belongs to *user code* (Python: last user frame; Node: first user frame; `site-packages` / `node_modules` / `node:internal` skipped), plus the source line. Exits 2 when there is no user frame — it refuses to guess.
+2. **A table of where each runtime actually writes its logs** (pytest capture vs stderr, `docker logs` vs `docker inspect`, journalctl, GitHub step logs, nginx error.log vs access.log). Most 「I cannot find the error」 cases are a wrong location, not a missing log.
+
+```bash
+pytest 2>&1 | python tools/extract_frame.py
+# C:\\proj\\src\\rates.js:16  (generic, user code)
+#   const rate = rates[currency];
+```
+
 ## Install
 
 Paste this into your agent:

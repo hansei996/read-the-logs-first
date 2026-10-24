@@ -24,3 +24,6 @@ jobs:
 
       - name: Run skillcheck
         run: python tools/skillcheck.py
+
+      - name: Run extract_frame tests
+        run: python tools/test_extract_frame.py
