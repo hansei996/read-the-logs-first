@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: first prove the action loads at all (good cassette must pass)
+        uses: hansei996/agenttest/validate@v1
+        with:
+          path: fixtures/sample
       - name: tamper one byte inside a hashed record
         run: |
           set -euo pipefail
